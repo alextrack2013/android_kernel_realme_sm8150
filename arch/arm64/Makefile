@@ -193,6 +193,10 @@ else
 KBUILD_IMAGE   := Image
 endif
 
+ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
+KBUILD_TARGET   += dtbo.img
+endif
+
 # Default target when executing plain make
 boot		:= arch/arm64/boot
 ifeq ($(CONFIG_BUILD_ARM64_APPENDED_DTB_IMAGE),y)
