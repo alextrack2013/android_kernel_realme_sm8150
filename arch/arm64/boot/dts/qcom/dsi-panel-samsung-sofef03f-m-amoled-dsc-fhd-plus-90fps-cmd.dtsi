@@ -42,6 +42,7 @@
 		qcom,mdss-dsi-wr-mem-start = <0x2c>;
 		qcom,mdss-dsi-wr-mem-continue = <0x3c>;
 		qcom,mdss-dsi-te-dcs-command = <1>;
+		qcom,ulps-enabled;
 		qcom,mdss-pan-physical-width-dimension = <68>;
 		qcom,mdss-pan-physical-height-dimension = <152>;
 		qcom,dynamic-mode-switch-enabled;
@@ -943,12 +944,14 @@
                     qcom,mdss-dsi-panel-phy-timings = [00 26 09 09 27 23 08 09 07 02 04 00 38 18];
                     qcom,display-topology = <1 0 1>,<2 2 1>;
                     qcom,default-topology-index = <1>;
+					qcom,partial-update-enabled = "single_roi";
                     //qcom,panel-roi-alignment=<540 30 540 30 540 30>;
                     };
                 timing@1 { /* fhd 90hz */
                     qcom,mdss-dsi-panel-phy-timings = [00 26 09 09 27 23 08 09 07 02 04 00 38 18];
                     qcom,display-topology = <1 0 1>,<2 2 1>;
                     qcom,default-topology-index = <1>;
+					qcom,partial-update-enabled = "single_roi";
                     //qcom,panel-roi-alignment=<540 30 540 30 540 30>;
                     };
                 };
