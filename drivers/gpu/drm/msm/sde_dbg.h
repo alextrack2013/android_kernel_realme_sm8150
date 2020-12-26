@@ -176,7 +176,10 @@ extern struct sde_dbg_evtlog *sde_dbg_base_evtlog;
 		SDE_DBG_DUMP_DATA_LIMITER)
 
 #if defined(CONFIG_DEBUG_FS)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7cb981876c60 (drm/msm/sde: Compile out sde debug if DEBUG_FS disabled)
 /**
  * sde_evtlog_init - allocate a new event log object
  * Returns:	evtlog or -ERROR
@@ -471,7 +474,13 @@ static inline int sde_evtlog_get_filter(struct sde_dbg_evtlog *evtlog,
 	return -EINVAL;
 }
 
-#endif /* defined(CONFIG_DEBUG_FS) */
+static inline void sde_rsc_debug_dump(u32 mux_sel)
+{
+}
 
+static inline void dsi_ctrl_debug_dump(u32 entries, u32 size)
+{
+}
+#endif /* defined(CONFIG_DEBUG_FS) */
 
 #endif /* SDE_DBG_H_ */
