@@ -1484,6 +1484,7 @@ static int dwc3_probe(struct platform_device *pdev)
 	pm_runtime_allow(dev);
 #ifdef CONFIG_DEBUG_FS
 	dwc3_debugfs_init(dwc);
+#endif
 	pm_runtime_put(dev);
 
 	dma_set_max_seg_size(dev, UINT_MAX);
