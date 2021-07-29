@@ -80,7 +80,7 @@ $(obj)/dtb: $(DTB_OBJS) FORCE
 	$(call if_changed,cat)
 
 $(obj)/dtbo.img: $(DTBO_OBJS) FORCE
-	$(call if_changed,mkdtimg,4096) # align dtbo.img to 4kB
+	$(call if_changed,mkdtimg)
 
 install:
 	$(CONFIG_SHELL) $(srctree)/$(src)/install.sh $(KERNELRELEASE) \
