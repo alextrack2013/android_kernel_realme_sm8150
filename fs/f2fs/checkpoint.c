@@ -15,6 +15,11 @@
 #include <linux/swap.h>
 #include <linux/kthread.h>
 
+#if defined(VENDOR_EDIT) && defined(CONFIG_UFSTW)
+/* Hank.liu@TECH.PLAT.Storage, 2019-10-31, add UFS+ hpb and tw driver*/
+#include <linux/ufstw.h>
+#endif
+
 #include "f2fs.h"
 #include "node.h"
 #include "segment.h"
@@ -1698,6 +1703,10 @@ stop:
 	f2fs_update_time(sbi, CP_TIME);
 	trace_f2fs_write_checkpoint(sbi->sb, cpc->reason, "finish checkpoint");
 out:
+#if defined(VENDOR_EDIT) && defined(CONFIG_UFSTW)
+/* Hank.liu@TECH.PLAT.Storage, 2019-10-31, add UFS+ hpb and tw driver*/
+	bdev_clear_turbo_write(sbi->sb->s_bdev);
+#endif
 	if (cpc->reason != CP_RESIZE)
 		f2fs_up_write(&sbi->cp_global_sem);
 	return err;
