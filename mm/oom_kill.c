@@ -206,7 +206,11 @@ unsigned long oom_badness(struct task_struct *p, struct mem_cgroup *memcg,
 	 * task's rss, pagetable and swap space use.
 	 */
 	points = get_mm_rss(p->mm) + get_mm_counter(p->mm, MM_SWAPENTS) +
+<<<<<<< HEAD
 		atomic_long_read(&p->mm->nr_ptes) + mm_nr_pmds(p->mm);
+=======
+		mm_nr_ptes(p->mm) + mm_nr_pmds(p->mm) + mm_nr_puds(p->mm);
+>>>>>>> 3b7568ec02110 (Revert "mm: consolidate page table accounting")
 	task_unlock(p);
 
 	/* Normalize to oom_score_adj units */
@@ -375,7 +379,11 @@ void dump_tasks(struct mem_cgroup *memcg, const nodemask_t *nodemask)
 	struct task_struct *p;
 	struct task_struct *task;
 
+<<<<<<< HEAD
 	pr_info("[ pid ]   uid  tgid total_vm      rss nr_ptes nr_pmds swapents oom_score_adj name\n");
+=======
+	pr_info("[ pid ]   uid  tgid total_vm      rss nr_ptes nr_pmds nr_puds swapents oom_score_adj name\n");
+>>>>>>> 3b7568ec02110 (Revert "mm: consolidate page table accounting")
 	rcu_read_lock();
 	for_each_process(p) {
 		if (oom_unkillable_task(p, memcg, nodemask))
@@ -391,11 +399,20 @@ void dump_tasks(struct mem_cgroup *memcg, const nodemask_t *nodemask)
 			continue;
 		}
 
+<<<<<<< HEAD
 		pr_info("[%5d] %5d %5d %8lu %8lu %7ld %7ld %8lu         %5hd %s\n",
 			task->pid, from_kuid(&init_user_ns, task_uid(task)),
 			task->tgid, task->mm->total_vm, get_mm_rss(task->mm),
 			atomic_long_read(&task->mm->nr_ptes),
 			mm_nr_pmds(task->mm),
+=======
+		pr_info("[%5d] %5d %5d %8lu %8lu %7ld %7ld %7ld %8lu         %5hd %s\n",
+			task->pid, from_kuid(&init_user_ns, task_uid(task)),
+			task->tgid, task->mm->total_vm, get_mm_rss(task->mm),
+			mm_nr_ptes(task->mm),
+			mm_nr_pmds(task->mm),
+			mm_nr_puds(task->mm),
+>>>>>>> 3b7568ec02110 (Revert "mm: consolidate page table accounting")
 			get_mm_counter(task->mm, MM_SWAPENTS),
 			task->signal->oom_score_adj, task->comm);
 		task_unlock(task);
