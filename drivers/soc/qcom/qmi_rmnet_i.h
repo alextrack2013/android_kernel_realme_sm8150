@@ -105,6 +105,8 @@ struct qmi_info {
 	bool ps_enabled;
 	bool dl_msg_active;
 	bool ps_ignore_grant;
+	bool wakelock_active;
+	struct wakeup_source *ws;
 };
 
 enum data_ep_type_enum_v01 {
