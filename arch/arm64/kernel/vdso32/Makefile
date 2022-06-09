@@ -10,12 +10,6 @@ else
   CC_ARM32 := $(CROSS_COMPILE_COMPAT)$(cc-name)
 endif
 
-ifneq ($(LLVM),)
-LD_COMPAT ?= $(LD)
-else
-LD_COMPAT ?= $(CROSS_COMPILE_COMPAT)ld
-endif
-
 # Same as cc-*option, but using CC_ARM32 instead of CC
 cc32-option = $(call try-run,\
         $(CC_ARM32) $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
