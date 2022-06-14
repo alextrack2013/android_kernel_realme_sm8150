@@ -18,8 +18,7 @@ include $(srctree)/arch/arm64/boot/dts/Makefile
 
 OBJCOPYFLAGS_Image :=-O binary -R .note -R .note.gnu.build-id -R .comment -S
 
-<<<<<<< HEAD
-targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo dtb dtbo.img
+targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo dtb dtbo.img dtb.img
 
 DTB_NAMES := $(subst $\",,$(CONFIG_BUILD_ARM64_APPENDED_DTB_IMAGE_NAMES))
 ifneq ($(DTB_NAMES),)
@@ -27,14 +26,8 @@ DTB_LIST := $(addsuffix .dtb,$(DTB_NAMES))
 else
 DTB_LIST := $(dtb-y)
 endif
-DTB_OBJS := $(shell find $(obj)/dts/ -name \*.dtb)
-
-DTBO_OBJS := $(shell find $(obj)/dts/ -name \*.dtbo)
-=======
-targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo dtbo.img
-
+DTB_OBJS := $(shell find -L $(obj)/dts/ -name \*.dtb)
 DTBO_OBJS := $(shell find -L $(obj)/dts/ -name \*.dtbo)
->>>>>>> 298c0409684d (dtbo.img: build device tree overlay partition image)
 
 # Add RTIC DTB to the DTB list if RTIC MPGen is enabled
 # Note, we keep this for compatibility with
@@ -80,8 +73,11 @@ $(obj)/dtb: $(DTB_OBJS) FORCE
 	$(call if_changed,cat)
 
 $(obj)/dtbo.img: $(DTBO_OBJS) FORCE
-	$(call if_changed,mkdtimg)
+	$(call if_changed,mkdtimg,4096) # align dtbo.img to 4kB
 
+$(obj)/dtb.img: $(DTB_OBJS) FORCE
+	$(call if_changed,cat)
+	
 install:
 	$(CONFIG_SHELL) $(srctree)/$(src)/install.sh $(KERNELRELEASE) \
 	$(obj)/Image System.map "$(INSTALL_PATH)"
