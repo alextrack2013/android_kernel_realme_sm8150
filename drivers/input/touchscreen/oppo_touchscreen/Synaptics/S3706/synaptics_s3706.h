@@ -27,6 +27,8 @@
 #define ENABLE_DTAP         0x01
 
 #define UNICODE_DETECT  0x0b
+#define STAP_DETECT     0x10
+#define S_UNICODE       0x73
 #define VEE_DETECT          0x0a
 #define CIRCLE_DETECT   0x08
 #define SWIPE_DETECT        0x07

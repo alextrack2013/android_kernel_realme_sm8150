@@ -1063,6 +1063,9 @@ static int synaptics_get_gesture_info(void *chip_data, struct gesture_info * ges
         case DTAP_DETECT:
                 gesture->gesture_type = DouTap;
                 break;
+        case STAP_DETECT:
+                gesture->gesture_type = SingleTap;
+                break;
         case SWIPE_DETECT:
                 gesture->gesture_type = (regswipe == 0x41) ? Left2RightSwip   :
                         (regswipe == 0x42) ? Right2LeftSwip   :
@@ -1085,6 +1088,9 @@ static int synaptics_get_gesture_info(void *chip_data, struct gesture_info * ges
                 gesture->gesture_type = (gesture_buffer[2] == 0x77 && gesture_buffer[3] == 0x00) ? Wgestrue :
                         (gesture_buffer[2] == 0x6d && gesture_buffer[3] == 0x00) ? Mgestrue :
                         UnkownGesture;
+                break;
+        case S_UNICODE:
+                gesture->gesture_type = SGESTRUE;
                 break;
         case FINGERPRINT_DOWN_DETECT:
                 chip_info->is_fp_down = true;
