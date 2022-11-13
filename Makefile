@@ -396,6 +396,7 @@ OBJSIZE	= llvm-size
 STRIP		= llvm-strip
 else
 AS		= $(CROSS_COMPILE)as
+CC		= $(CROSS_COMPILE)gcc
 LD		= $(CROSS_COMPILE)ld
 REAL_CC		= $(CROSS_COMPILE)gcc
 LDGOLD		= $(CROSS_COMPILE)ld.gold
