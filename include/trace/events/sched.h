@@ -314,6 +314,7 @@ TRACE_EVENT(sched_load_balance,
 		__entry->balance_interval, __entry->active_balance)
 );
 
+#ifdef CONFIG_NO_HZ_COMMON
 TRACE_EVENT(sched_load_balance_nohz_kick,
 
 	TP_PROTO(int cpu, int kick_cpu),
@@ -343,6 +344,7 @@ TRACE_EVENT(sched_load_balance_nohz_kick,
 			__entry->kick_cpu, __entry->nohz_flags)
 
 );
+#endif
 
 TRACE_EVENT(sched_load_balance_sg_stats,
 
