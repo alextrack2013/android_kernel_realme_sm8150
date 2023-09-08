@@ -96,7 +96,6 @@ static int aanc_level;
 static int msm_ec_ref_port_id;
 #endif /* OPLUS_ARCH_EXTENDS */
 
-static int num_app_cfg_types;
 #define WEIGHT_0_DB 0x4000
 /* all the FEs which can support channel mixer */
 static struct msm_pcm_channel_mixer channel_mixer[MSM_FRONTEND_DAI_MM_SIZE];
