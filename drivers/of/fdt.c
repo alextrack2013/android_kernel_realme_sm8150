@@ -27,6 +27,7 @@
 #include <linux/debugfs.h>
 #include <linux/serial_core.h>
 #include <linux/sysfs.h>
+#include <linux/random.h>
 
 #include <asm/setup.h>  /* for COMMAND_LINE_SIZE */
 #include <asm/page.h>
@@ -450,7 +451,7 @@ static int unflatten_dt_nodes(const void *blob,
 	for (offset = 0;
 	     offset >= 0 && depth >= initial_depth;
 	     offset = fdt_next_node(blob, offset, &depth)) {
-		if (WARN_ON_ONCE(depth >= FDT_MAX_DEPTH))
+		if (WARN_ON_ONCE(depth >= FDT_MAX_DEPTH - 1))
 			continue;
 
 		fpsizes[depth+1] = populate_node(blob, offset, &mem,
@@ -1201,51 +1202,57 @@ static const int read_dt_cmdline = 1;
 static const int concat_cmdline;
 #endif
 
-#ifdef CONFIG_CMDLINE
-static const char *config_cmdline = CONFIG_CMDLINE;
-#else
-static const char *config_cmdline = "";
-#endif
-
 int __init early_init_dt_scan_chosen(unsigned long node, const char *uname,
 				     int depth, void *data)
 {
-	int l = 0;
-	const char *p = NULL;
-	char *cmdline = data;
+	int l;
+	const char *p;
+	const void *rng_seed;
 
 	pr_debug("search \"chosen\", depth: %d, uname: %s\n", depth, uname);
 
-	if (depth != 1 || !cmdline ||
+	if (depth != 1 || !data ||
 	    (strcmp(uname, "chosen") != 0 && strcmp(uname, "chosen@0") != 0))
 		return 0;
 
 	early_init_dt_check_for_initrd(node);
 
-	/* Put CONFIG_CMDLINE in if forced or if data had nothing in it to start */
-	if (overwrite_incoming_cmdline || !cmdline[0])
-		strlcpy(cmdline, config_cmdline, COMMAND_LINE_SIZE);
+	/* Retrieve command line */
+	p = of_get_flat_dt_prop(node, "bootargs", &l);
+	if (p != NULL && l > 0)
+		strlcpy(data, p, min((int)l, COMMAND_LINE_SIZE));
 
-	/* Retrieve command line unless forcing */
-	if (read_dt_cmdline)
-		p = of_get_flat_dt_prop(node, "bootargs", &l);
-
-	if (p != NULL && l > 0) {
-		if (concat_cmdline) {
-			int cmdline_len;
-			int copy_len;
-			strlcat(cmdline, " ", COMMAND_LINE_SIZE);
-			cmdline_len = strlen(cmdline);
-			copy_len = COMMAND_LINE_SIZE - cmdline_len - 1;
-			copy_len = min((int)l, copy_len);
-			strncpy(cmdline + cmdline_len, p, copy_len);
-			cmdline[cmdline_len + copy_len] = '\0';
-		} else {
-			strlcpy(cmdline, p, min((int)l, COMMAND_LINE_SIZE));
-		}
-	}
+	/*
+	 * CONFIG_CMDLINE is meant to be a default in case nothing else
+	 * managed to set the command line, unless CONFIG_CMDLINE_FORCE
+	 * is set in which case we override whatever was found earlier.
+	 */
+#ifdef CONFIG_CMDLINE
+#if defined(CONFIG_CMDLINE_EXTEND)
+	strlcat(data, " ", COMMAND_LINE_SIZE);
+	strlcat(data, CONFIG_CMDLINE, COMMAND_LINE_SIZE);
+#elif defined(CONFIG_CMDLINE_FORCE)
+	strlcpy(data, CONFIG_CMDLINE, COMMAND_LINE_SIZE);
+#else
+	/* No arguments from boot loader, use kernel's  cmdl*/
+	if (!((char *)data)[0])
+		strlcpy(data, CONFIG_CMDLINE, COMMAND_LINE_SIZE);
+#endif
+#endif /* CONFIG_CMDLINE */
 
 	pr_debug("Command line is: %s\n", (char*)data);
+
+	rng_seed = of_get_flat_dt_prop(node, "rng-seed", &l);
+	if (rng_seed && l > 0) {
+		add_bootloader_randomness(rng_seed, l);
+
+		/* try to clear seed so it won't be found. */
+		fdt_nop_property(initial_boot_params, node, "rng-seed");
+
+		/* update CRC check value */
+		of_fdt_crc32 = crc32_be(~0, initial_boot_params,
+				fdt_totalsize(initial_boot_params));
+	}
 
 	/* break now */
 	return 1;
