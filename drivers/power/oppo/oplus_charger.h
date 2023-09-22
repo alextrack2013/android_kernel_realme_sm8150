@@ -178,19 +178,17 @@
 
 #define TEMPERATURE_INVALID	-2740
 
-int enable_charger_log = 0;
-
 #define chg_debug(fmt, ...) \
 		do { \
-			if (enable_charger_log >= (int)num) { \
-        printk(KERN_NOTICE "[OPLUS_CHG][%s:%d]"fmt, __func__, __LINE__, ##__VA_ARGS__)
+			if (0) { \
+        printk(KERN_NOTICE "[OPLUS_CHG][%s:%d]"fmt, __func__, __LINE__, ##__VA_ARGS__); \
 					} \
 		} while (0)
 
 #define chg_err(fmt, ...) \
 		do { \
-			if (enable_charger_log >= (int)num) { \
-        printk(KERN_ERR "[OPLUS_CHG][%s:%d]"fmt, __func__, __LINE__, ##__VA_ARGS__)
+			if (0) { \
+        printk(KERN_ERR "[OPLUS_CHG][%s:%d]"fmt, __func__, __LINE__, ##__VA_ARGS__); \
 							} \
 		} while (0)
 
