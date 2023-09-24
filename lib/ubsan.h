@@ -46,9 +46,8 @@ struct type_mismatch_data_v1 {
 
 struct nonnull_arg_data {
 	struct source_location location;
-	struct type_descriptor *type;
-	unsigned char log_alignment;
-	unsigned char type_check_kind;
+	struct source_location attr_location;
+	int arg_index;
 };
 
 struct type_mismatch_data_common {
