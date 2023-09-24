@@ -206,15 +206,7 @@ unsigned long oom_badness(struct task_struct *p, struct mem_cgroup *memcg,
 	 * task's rss, pagetable and swap space use.
 	 */
 	points = get_mm_rss(p->mm) + get_mm_counter(p->mm, MM_SWAPENTS) +
-<<<<<<< HEAD
-<<<<<<< HEAD
-		atomic_long_read(&p->mm->nr_ptes) + mm_nr_pmds(p->mm);
-=======
-		mm_nr_ptes(p->mm) + mm_nr_pmds(p->mm) + mm_nr_puds(p->mm);
->>>>>>> 3b7568ec02110 (Revert "mm: consolidate page table accounting")
-=======
 		mm_pgtables_bytes(p->mm) / PAGE_SIZE;
->>>>>>> 306ff99bf351f (mm: consolidate page table accounting)
 	task_unlock(p);
 
 	/* Normalize to oom_score_adj units */
