@@ -36,11 +36,11 @@
  * Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,
  * modify for 18115 samsung amoled
 */
-#include "dsi-panel-oppo19696boe-nt36672c-1080-2400-90fps.dtsi"
-#include "dsi-panel-oppo19696jdi-nt36672c-1080-2400-90fps.dtsi"
+#include "dsi-panel-samsung-s6e3fc2x01-amoled-dsc-fhd-plus-cmd.dtsi"
+#include "dsi-panel-samsung-s6e3fc2x01-amoled-dsc-fhd-plus-61fps-cmd.dtsi"
+#include "dsi-panel-samsung-sofef03f-m-amoled-dsc-fhd-plus-90fps-cmd.dtsi"
 //#endif VENDOR_EDIT
 #include "dsi-panel-nt36850-truly-dualmipi-wqhd-cmd.dtsi"
-#include "dsi-panel-rm69299-visionox-amoled-fhd-plus-video.dtsi"
 #include <dt-bindings/clock/mdss-10nm-pll-clk.h>
 
 &tlmm {
@@ -76,19 +76,12 @@
 		qcom,panel-supply-entry@1 {
 			reg = <1>;
 			qcom,supply-name = "lab";
-//#ifndef VENDOR_EDIT
-//Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,modify for 18115 samsung amoled
-/*
-			qcom,supply-min-voltage = <4600000>;
-			qcom,supply-max-voltage = <6000000>;
-*/
-//#endif
 //#ifdef VENDOR_EDIT
-
 /*
  * Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,
  * modify for 18115 samsung amoled
 */
+
 			qcom,supply-min-voltage = <3000000>;
 			qcom,supply-max-voltage = <3000000>;
 //#endif /*VENDOR_EDIT*/
@@ -236,26 +229,37 @@
  * Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,
  * modify for 18115 samsung amoled
 */
-
-	dsi_oppo19696boe_nt36672c_1080_2400_90fps_vid_display: qcom,dsi-display@26 {
-		label = "dsi_oppo19696boe_nt36672c_1080_2400_90fps_vid_display";
+	dsi_samsung_fhd_plus_dsc_cmd_display: qcom,dsi-display@23 {
+		label = "dsi_samsung_fhd_plus_dsc_cmd_display";
 		qcom,display-type = "primary";
 		qcom,dsi-ctrl-num = <0>;
 		qcom,dsi-phy-num = <0>;
 
 		qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0";
 
-		qcom,dsi-panel = <&dsi_oppo19696boe_nt36672c_1080_2400_90fps_vid>;
+		qcom,dsi-panel = <&dsi_samsung_s6e3fc2x01_amoled_fhd_plus_cmd>;
 	};
-	dsi_oppo19696jdi_nt36672c_1080_2400_90fps_vid_display: qcom,dsi-display@27 {
-		label = "dsi_oppo19696jdi_nt36672c_1080_2400_90fps_vid_display";
+
+		dsi_samsung_fhd_plus_dsc_cmd_61fps_display: qcom,dsi-display@24 {
+		label = "dsi_samsung_fhd_plus_dsc_cmd_61fps_display";
 		qcom,display-type = "primary";
 		qcom,dsi-ctrl-num = <0>;
 		qcom,dsi-phy-num = <0>;
 
 		qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0";
 
-		qcom,dsi-panel = <&dsi_oppo19696jdi_nt36672c_1080_2400_90fps_vid>;
+		qcom,dsi-panel = <&dsi_samsung_s6e3fc2x01_amoled_fhd_plus_61fps_cmd>;
+	};
+
+	dsi_samsung_fhd_plus_dsc_cmd_90fps_display: qcom,dsi-display@25 {
+		label = "dsi_samsung_fhd_plus_dsc_cmd_90fps_display";
+		qcom,display-type = "primary";
+		qcom,dsi-ctrl-num = <0>;
+		qcom,dsi-phy-num = <0>;
+
+		qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0";
+
+		qcom,dsi-panel = <&dsi_samsung_sofef03f_m_amoled_fhd_plus_90fps_cmd>;
 	};
 //#endif VENDOR_EDIT
 	dsi_sharp_1080_cmd_display: qcom,dsi-display@2 {
@@ -492,16 +496,7 @@
 		qcom,dsi-panel = <&dsi_sim_sec_hd_cmd>;
 	};
 
-	dsi_rm69299_visionox_amoled_vid_display: qcom,dsi-display@23 {
-		label = "dsi_rm69299_visionox_amoled_vid_display";
-		qcom,display-type = "primary";
 
-		qcom,dsi-ctrl-num = <0>;
-		qcom,dsi-phy-num = <0>;
-		qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0";
-
-		qcom,dsi-panel = <&dsi_rm69299_visionox_amoled_video>;
-	};
 
 	sde_dsi: qcom,dsi-display-primary {
 		compatible = "qcom,dsi-display";
@@ -524,7 +519,6 @@
 			      "cphy_byte_clk0", "cphy_pixel_clk0",
 			      "mux_byte_clk1", "mux_pixel_clk1",
 			      "cphy_byte_clk1", "cphy_pixel_clk1";
-
 */
 //#else /*VENDOR_EDIT*/
 /*
@@ -542,30 +536,11 @@
 		pinctrl-names = "panel_active", "panel_suspend";
 		pinctrl-0 = <&sde_dsi_active &sde_te_active>;
 		pinctrl-1 = <&sde_dsi_suspend &sde_te_suspend>;
-//#ifndef VENDOR_EDIT
-/*
- * Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,
- * modify for 18115 samsung amoled
- */
-/*
+
 		qcom,platform-te-gpio = <&tlmm 8 0>;
-*/
-//#endif
 		qcom,panel-te-source = <0>;
 
 		vddio-supply = <&pm8150_l14>;
-//#ifndef VENDOR_EDIT
-/*
- * Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,
- * modify for 18115 samsung amoled
-*/
-/*
-		lab-supply = <&lcdb_ldo_vreg>;
-		ibb-supply = <&lcdb_ncp_vreg>;
-		vdd-supply = <&display_panel_avdd_eldo>;
-*/
-//#endif /*VENDOR_EDIT*/
-
 //#ifdef VENDOR_EDIT
 /*
  * Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,
@@ -573,7 +548,13 @@
 */
 		lab-supply = <&pm8150_l17>;
 //#endif /*VENDOR_EDIT*/
-
+//#ifndef VENDOR_EDIT
+/*
+ * Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,
+ * modify for 18115 samsung amoled
+*/
+		//ibb-supply = <&lcdb_ncp_vreg>;
+//#endif /*VENDOR_EDIT*/
 //#ifndef VENDOR_EDIT
 /* Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/08, remove for for 18115 amoled */
 //	vdd-supply = <&display_panel_avdd_eldo>;
@@ -599,16 +580,15 @@
 			&dsi_nt35695b_truly_fhd_video_display
 			&dsi_sw43404_amoled_video_display
 			&dsi_sw43404_amoled_fhd_plus_cmd_display
-			&dsi_rm69299_visionox_amoled_vid_display
 			&dsi_dual_nt36850_truly_cmd_display
 //#ifdef VENDOR_EDIT
 /*
  * Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,
  * modify for 18115 samsung amoled
 */
-			&dsi_oppo19696boe_nt36672c_1080_2400_90fps_vid_display
-			&dsi_oppo19696jdi_nt36672c_1080_2400_90fps_vid_display>;
-
+			&dsi_samsung_fhd_plus_dsc_cmd_display
+			&dsi_samsung_fhd_plus_dsc_cmd_61fps_display
+			&dsi_samsung_fhd_plus_dsc_cmd_90fps_display>;
 //#endif /*VENDOR_EDIT*/
 	};
 
@@ -696,12 +676,7 @@
  * liping-m@PSW.MM.Display.LCD.Stability, 2019/06/13,
  * modify for 19081 samsung amoled
 */
-/*
-	connectors = <&sde_rscc &sde_wb &sde_dp &sde_dsi &sde_dsi1>
-*/
-//#else
 	connectors = <&sde_rscc &sde_wb &sde_dsi>;
-    clock-rate = <0 0 0 0 345000000 19200000 300000000 19200000>;
 //#endif /* VENDOR_EDIT */
 };
 
@@ -743,19 +718,6 @@
 				07 05 02 04 00 18 17];
 			qcom,display-topology = <2 0 2>,
 						<1 0 2>;
-			qcom,default-topology-index = <0>;
-		};
-	};
-};
-
-&dsi_rm69299_visionox_amoled_video {
-	qcom,mdss-dsi-t-clk-post = <0x0E>;
-	qcom,mdss-dsi-t-clk-pre = <0x31>;
-	qcom,mdss-dsi-display-timings {
-		timing@0{
-			qcom,mdss-dsi-panel-phy-timings = [00 20 08 08 24 23 08
-				08 05 02 04 00 18 17];
-			qcom,display-topology = <1 0 1>;
 			qcom,default-topology-index = <0>;
 		};
 	};
@@ -838,115 +800,59 @@
 		};
 	};
 };
+
 //#ifdef VENDOR_EDIT
 /*
  * Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/06/11,
  * modify for 18115 samsung amoled
  */
-
-&dsi_oppo19696boe_nt36672c_1080_2400_90fps_vid {
-	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
-	/* xupengcheng@MULTIMEDIA.DISPLAY.LCD, 2020/09/23, add for 19696 backlight IC lm3697*/
-	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_external";
-	qcom,mdss-dsi-bl-min-level = <1>;
-	qcom,mdss-dsi-bl-max-level = <4095>;
-	qcom,mdss-brightness-max-level = <4095>;
-	qcom,mdss-dsi-bl-default-level = <1200>;
-        qcom,mdss-dsi-bl-normal-max-level = <2047>;
-	qcom,mdss-brightness-normal-max-level = <2047>;
-	qcom,platform-te-gpio = <&tlmm 9 0>;
-	qcom,platform-reset-gpio = <&tlmm 6 0>;
-	/* xupengcheng@MULTIMEDIA.DISPLAY.LCD, 2020/10/27, add for 19696 ktd2151 */
-	oplus,enp-gpio = <&pm8150l_gpios 2 0>;
-	oplus,enn-gpio = <&pm8150l_gpios 1 0>;
-
-	oppo,mdss-dsi-vendor-name = "NT36672C";
-	oppo,mdss-dsi-manufacture = "boe vdo mode";
-
-	qcom,ulps-enabled;
-	qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0",
-				"src_byte_clk0", "src_pixel_clk0",
-				"shadow_byte_clk0", "shadow_pixel_clk0";
-	qcom,mdss-dsi-t-clk-post = <0x0E>;
-	qcom,mdss-dsi-t-clk-pre = <0x35>;
-
-	qcom,dsi-supported-dfps-list = <60 90 120 45>;
-	qcom,mdss-dsi-pan-enable-dynamic-fps;
-	qcom,mdss-dsi-pan-fps-update = "dfps_immediate_porch_mode_vfp";
-
-//	qcom,dsi-dyn-clk-enable;
-	qcom,dsi-dyn-clk-list = <1104393600 1114747290>;
-
+&dsi_samsung_s6e3fc2x01_amoled_fhd_plus_cmd {
 	qcom,esd-check-enabled;
 	qcom,mdss-dsi-panel-status-check-mode = "reg_read";
-	qcom,mdss-dsi-panel-status-command = [06 01 00 01 05 00 02 0A 00
-						06 01 00 01 05 00 02 AB 00];
-	qcom,mdss-dsi-panel-status-command-state = "dsi_lp_mode";
-	qcom,mdss-dsi-panel-status-value = <0x9C 0x00 0x00>;
-	qcom,mdss-dsi-panel-on-check-value = <0x9C 0x00 0x00>;
-	qcom,mdss-dsi-panel-status-read-length = <1 2>;
-
+	qcom,mdss-dsi-panel-status-command = [06 01 00 01 00 00 01 0c];
+	qcom,mdss-dsi-panel-status-command-state = "dsi_hs_mode";
+	qcom,mdss-dsi-panel-status-value = <0x77>;
+	qcom,mdss-dsi-panel-on-check-value = <0x77>;
+	qcom,mdss-dsi-panel-status-read-length = <1>;
 	qcom,mdss-dsi-display-timings {
 		timing@0{
-			qcom,mdss-dsi-panel-phy-timings = [00 24 0A 0A 26 24 0A
-				0A 06 02 04 00 1E 1A];
-
-			qcom,display-topology = <1 1 1>;
+			qcom,mdss-dsi-panel-phy-timings = [00 26 09 09 27 2D 09
+				09 07 02 04 00 38 18];
+			qcom,display-topology = <1 0 1>,
+						<2 2 1>, /* dsc merge */
+						<2 1 1>; /* 3d mux */
 			qcom,default-topology-index = <0>;
 		};
 	};
 };
 
-&dsi_oppo19696jdi_nt36672c_1080_2400_90fps_vid {
-	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
-	/* xupengcheng@MULTIMEDIA.DISPLAY.LCD, 2020/09/23, add for 19696 backlight IC lm3697*/
-	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_external";
-	qcom,mdss-dsi-bl-min-level = <1>;
-	qcom,mdss-dsi-bl-max-level = <4095>;
-	qcom,mdss-brightness-max-level = <4095>;
-        qcom,mdss-dsi-bl-default-level = <1200>;
-        qcom,mdss-dsi-bl-normal-max-level = <2047>;
-	qcom,mdss-brightness-normal-max-level = <2047>;
-	qcom,platform-te-gpio = <&tlmm 9 0>;
-	qcom,platform-reset-gpio = <&tlmm 6 0>;
-	/* xupengcheng@MULTIMEDIA.DISPLAY.LCD, 2020/10/27, add for 19696 ktd2151 */
-	oplus,enp-gpio = <&pm8150l_gpios 2 0>;
-	oplus,enn-gpio = <&pm8150l_gpios 1 0>;
-	oppo,mdss-dsi-vendor-name = "NT36672C";
-	oppo,mdss-dsi-manufacture = "jdi vdo mode";
-
-	qcom,ulps-enabled;
-	qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0",
-				"src_byte_clk0", "src_pixel_clk0",
-				"shadow_byte_clk0", "shadow_pixel_clk0";
-	qcom,mdss-dsi-t-clk-post = <0x0E>;
-	qcom,mdss-dsi-t-clk-pre = <0x35>;
-
-	qcom,dsi-supported-dfps-list = <60 90 120 45>;
-	qcom,mdss-dsi-pan-enable-dynamic-fps;
-	qcom,mdss-dsi-pan-fps-update = "dfps_immediate_porch_mode_vfp";
-
-//	qcom,dsi-dyn-clk-enable;
-	qcom,dsi-dyn-clk-list = <1104393600 1114747290>;
-
+&dsi_samsung_s6e3fc2x01_amoled_fhd_plus_61fps_cmd {
 	qcom,esd-check-enabled;
 	qcom,mdss-dsi-panel-status-check-mode = "reg_read";
-	qcom,mdss-dsi-panel-status-command = [06 01 00 01 05 00 02 0A 00
-                                        06 01 00 01 05 00 02 AB 00];
-	qcom,mdss-dsi-panel-status-command-state = "dsi_lp_mode";
-	qcom,mdss-dsi-panel-status-value = <0x9C 0x00 0x00>;
-	qcom,mdss-dsi-panel-on-check-value = <0x9C 0x00 0x00>;
-	qcom,mdss-dsi-panel-status-read-length = <1 2>;
-
+	qcom,mdss-dsi-panel-status-command = [06 01 00 01 00 00 01 0c];
+	qcom,mdss-dsi-panel-status-command-state = "dsi_hs_mode";
+	qcom,mdss-dsi-panel-status-value = <0x77>;
+	qcom,mdss-dsi-panel-on-check-value = <0x77>;
+	qcom,mdss-dsi-panel-status-read-length = <1>;
 	qcom,mdss-dsi-display-timings {
 		timing@0{
-			qcom,mdss-dsi-panel-phy-timings = [00 24 0A 0A 26 24 0A
-				0A 06 02 04 00 1E 1A];
-
-			qcom,display-topology = <1 1 1>;
+			qcom,mdss-dsi-panel-phy-timings = [00 26 09 09 27 2D 09
+				09 07 02 04 00 38 18];
+			qcom,display-topology = <1 0 1>,
+						<2 2 1>, /* dsc merge */
+						<2 1 1>; /* 3d mux */
 			qcom,default-topology-index = <0>;
 		};
 	};
+};
+
+&dsi_samsung_sofef03f_m_amoled_fhd_plus_90fps_cmd {
+    qcom,esd-check-enabled;
+    qcom,mdss-dsi-panel-status-check-mode = "reg_read";
+    qcom,mdss-dsi-panel-status-command = [06 01 00 01 05 00 02 0A 00];
+    qcom,mdss-dsi-panel-status-command-state = "dsi_hs_mode";
+    qcom,mdss-dsi-panel-status-value = <0x9C>;
+    qcom,mdss-dsi-panel-status-read-length = <1>;
 };
 //#endif /*VENDOR_EDIT*/
 

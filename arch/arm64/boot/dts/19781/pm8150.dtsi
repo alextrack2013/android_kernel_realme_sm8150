@@ -62,19 +62,8 @@
 			qcom,pon_2 {
 				qcom,pon-type = <PON_POWER_ON_TYPE_RESIN>;
 				qcom,pull-up;
-				linux,code = <KEY_VOLUMEUP>;
+				linux,code = <KEY_VOLUMEDOWN>;
 			};
-			/*#ifdef VENDOR_EDIT*/
-			//Added by ZhenXi.Wei@RM.Bsp.Stability.PMIC add for hard reset.bugID:2664447,2020-01-19
-			qcom,pon_3 {
-				qcom,pon-type = <PON_POWER_ON_TYPE_KPDPWR_RESIN>;
-				qcom,support-reset = <1>;
-				qcom,s1-timer = <6720>; //you can change the time
-				qcom,s2-timer = <2000>;//you can change the time
-				qcom,s2-type = <PON_POWER_OFF_TYPE_SHUTDOWN>;
-				qcom,pull-up;
-			};
-			/*#endif*/
 		};
 
 		pm8150_clkdiv: clock-controller@5b00 {
@@ -176,7 +165,7 @@
 			#size-cells = <0>;
 			#thermal-sensor-cells = <1>;
 			io-channels = <&pm8150_vadc ADC_XO_THERM_PU2>,
-					//<&pm8150_vadc ADC_AMUX_THM1_PU2>,// OuYangBaiLi@BSP.CHG.Basic,charging_bsp 2020/03/04,modify for thermal 19696 
+					<&pm8150_vadc ADC_AMUX_THM1_PU2>,
 					<&pm8150_vadc ADC_AMUX_THM2_PU2>;
 		};
 	};

@@ -301,7 +301,7 @@
 				qcom,led-mask = <3>;
 				qcom,default-led-trigger = "switch3_trigger";
 			};
-			/*#endif*/
+			/*#endif*/            
 		};
 
 		pm8150l_wled: qcom,wled@d800 {

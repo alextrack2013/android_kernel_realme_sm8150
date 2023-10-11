@@ -56,15 +56,8 @@
 
 	qcom,wsa-disable;
 	qcom,wsa-max-devs = <0>;
-	oppo,speaker-pa = "nxp";
-	oppo,usbc-switch = <1>;  /* 0: no usbc switch; 1: fsa4480; 2: max20328 */
-
-	/* #ifdef VENDOR_EDIT */
-	/* Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2019/07/31, Add for type-c headset. */
-	qcom,msm-mbhc-usbc-audio-supported = <1>;
-	fsa4480-i2c-handle = <&fsa4480>;
-	/* #endif VENDOR_EDIT */
-
+	oppo,speaker-pa = "maxim";
+	oppo,usbc-switch = <0>;  /* 0: no usbc switch; 1: fsa4480; 2: max20328 */
 };
 
 &wcd934x_cdc {
@@ -76,47 +69,33 @@
 
 &qupv3_se4_i2c {
 	status = "ok";
-        tfa98xx@35 {
-                compatible = "nxp,tfa98xx";
-                reg = <0x35>;
-                tfa9874_vdd-supply = <&pm8150_s4>;
-                tfa98xx_fw_name = "tfa98xx.cnt";
-                tfa_min_range = <4800>;
-                tfa_max_range = <7800>;
-
-                status = "okay";
-        };
-
-	fsa4480: fsa4480@42 {
-		compatible = "qcom,fsa4480-i2c";
-		reg = <0x42>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&fsa_hs_det>;
-		fsa4480,hs-det-gpio = <&tlmm 53 0x00>;
+	max989xx@39 {
+		compatible = "maxim,max98927L";
+		reg = <0x39>;
+		mono_stereo_mode = <3>;
+		interleave_mode = <1>;
+		range_mohms = <5000 8000>;
+		maxim,98927-reset-gpio = <&tlmm 148 0x00>;
+		max989xx_vdd-supply = <&pm8150_s4>;
+		status = "okay";
 	};
-};
-
-&tlmm {
-	fsa_hs_det: fsa_hs_det  {
-		mux {
-			pins = "gpio53";
-			function = "gpio";
-		};
-
-		config {
-			pins = "gpio53";
-			drive-strength = <2>;
-			bias-disable;
-			output-high;
-		};
+	max989xx@3a {
+		compatible = "maxim,max98927R";
+		reg = <0x3a>;
+		mono_stereo_mode = <3>;
+		interleave_mode = <1>;
+		range_mohms = <5000 8000>;
+		maxim,98927-reset-gpio = <&tlmm 37 0x00>;
+		max989xx_vdd-supply = <&pm8150_s4>;
+		status = "okay";
 	};
 };
 
 &dai_mi2s3 {
 	compatible = "qcom,msm-dai-q6-mi2s";
 	qcom,msm-dai-q6-mi2s-dev-id = <3>;
-	qcom,msm-mi2s-rx-lines = <1>;
-	qcom,msm-mi2s-tx-lines = <2>;
+	qcom,msm-mi2s-rx-lines = <2>;
+	qcom,msm-mi2s-tx-lines = <1>;
 };
 
 &aqt1000_cdc {

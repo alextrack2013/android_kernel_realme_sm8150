@@ -105,14 +105,17 @@
         shell_front {
                 compatible = "oplus,shell-temp";
         };
+
         shell_frame {
                 compatible = "oplus,shell-temp";
         };
+
         shell_back {
                 compatible = "oplus,shell-temp";
         };
 };
 //#endif
+
 &thermal_zones {
 	aoss0-usr {
 		polling-delay-passive = <0>;

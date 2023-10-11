@@ -30,7 +30,7 @@
 	model = "MTP";
 	compatible = "qcom,sm8150-mtp", "qcom,sm8150", "qcom,mtp";
 	qcom,board-id = <8 0>;
-	oppo,dtsi_no = <19696>;
+	oppo,dtsi_no = <19781>;
 };
 
 &dsi_sharp_4k_dsc_cmd_display {

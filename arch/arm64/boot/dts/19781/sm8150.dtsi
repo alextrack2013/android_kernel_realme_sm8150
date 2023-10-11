@@ -556,44 +556,13 @@
 	firmware: firmware {
 		android {
 			compatible = "android,firmware";
+			boot_devices = "soc/1d84000.ufshc";
 			shared_meta: vbmeta {
 				compatible = "android,vbmeta";
 //#ifdef VENDOR_EDIT
 //#Weizhenxi@BSP.Bootloader.Bootflow, 2018/04/26, rm odm node to disable A/B partition,add recovery node in avb chain verify
 				//parts = "vbmeta,boot,system,vendor,dtbo,odm";
 				parts = "vbmeta,boot,system,vendor,dtbo,recovery";
-//#endif
-			};
-			android_q_fstab: fstab {
-				compatible = "android,fstab";
-				vendor {
-					compatible = "android,vendor";
-					dev = "/dev/block/platform/soc/8804000.sdhci/by-name/vendor";
-					type = "ext4";
-//#ifdef VENDOR_EDIT
-//yh@PSW.BSP.Storage.EXT4, 2018-11-26 add for ext4 async discard suppot
-					//mnt_flags = "ro,barrier=1,discard";
-					mnt_flags = "ro,barrier=1,async_discard";
-//#endif
-
-//#ifdef VENDOR_EDIT
-//#Weizhenxi@BSP.Bootloader.Bootflow, 2018/04/26, rm slotselect to disable A/B partition
-					//fsmgr_flags = "wait,slotselect,avb";
-					fsmgr_flags = "wait,avb";
-//#endif
-					status = "ok";
-				};
-
-//#ifdef VENDOR_EDIT
-//#Weizhenxi@BSP.Bootloader.Bootflow, 2018/04/26, rm odm node to disable A/B partition
-//				odm {
-//					compatible = "android,odm";
-//					dev = "/dev/block/platform/soc/8804000.sdhci/by-name/odm";
-//					type = "ext4";
-//					mnt_flags = "ro,barrier=1,discard";
-//					fsmgr_flags = "wait,slotselect,avb";
-//					status = "ok";
-//				};
 //#endif
 			};
 		};
@@ -3088,7 +3057,7 @@
 		compatible = "qcom,qseecom";
 		//ifdef OPLUS_FEATURE_SECURITY_COMMON
 		//Long.Liu@BSP.Fingerprint.Basic 2018/11/27 ,Add for set TZAPPMEM to 62M (KBA-181104234050)
-		/*Long.Liu@Bsp.Fingerprint.Basic, 2019/09/06, expend tz memory to 94*/
+		/*Long.Liu@BSP.Fingerprint.Secure, 2019/08/27, expend tz memory to 94M */
 		//reg = <0x87900000 0x2200000>;
 		reg = <0x87900000 0x5E00000>;
 		//endif OPLUS_FEATURE_SECURITY_COMMON
@@ -4270,92 +4239,3 @@
 #include "sm8150-usb.dtsi"
 #include "sm8150-gpu.dtsi"
 #include "sm8150-mhi.dtsi"
-&qupv3_se15_i2c {
-	status = "okay";
-
-	bq27541-battery@55 {
-		status = "okay";
-		compatible = "oplus,bq27541-battery";
-		reg = <0x55>;
-		qcom,modify-soc-smooth;
-		qcom,battery-full-param;//only for wite battery full param in guage dirver probe on 7250 platform 
-	};
-
-	oplus_short-ic@58 {
-		status = "okay";
-		compatible = "oplus,oplus_short-ic";
-		reg = <0x58>;
-		qcom,modify-soc-smooth;
-	};
-
-	stm8s_fastcg@26{
-		status = "okay";
-		compatible = "oplus,stm8s-fastcg";
-		reg = <0x26>;
-		qcom,vooc-low-temp = <50>;
-		qcom,oplus_batt_4400mv;
-		//qcom,vooc_fw_update_newmethod;
-		///qcom,vooc-fw-type = <0x22>;//5A
-		qcom,vooc-high-temp = <430>;
-		qcom,vooc-low-soc = <1>;
-		qcom,vooc-high-soc = <85>;
-		qcom,vooc-fw-type = <11>;
-
-		qcom,vooc_multistep_adjust_current_support;
-		qcom,vooc_multistep_initial_batt_temp = <1000>;
-		qcom,vooc_strategy_normal_current = <0x06>;
-
-		qcom,vooc_strategy1_batt_high_temp0 = <410>;
-		qcom,vooc_strategy1_batt_high_temp1 = <425>;
-		qcom,vooc_strategy1_batt_high_temp2 = <435>;
-		qcom,vooc_strategy1_batt_low_temp2 = <430>;
-		qcom,vooc_strategy1_batt_low_temp1 = <410>;
-		qcom,vooc_strategy1_batt_low_temp0 = <390>;
-
-		qcom,vooc_strategy1_high_current0 = <0x04>;//4A
-		qcom,vooc_strategy1_high_current1 = <0x03>;//3A
-		qcom,vooc_strategy1_high_current2 = <0x02>;//2A
-		qcom,vooc_strategy1_low_current2 = <0x03>;//3A
-		qcom,vooc_strategy1_low_current1 = <0x05>;//5A
-		qcom,vooc_strategy1_low_current0 = <0x06>;//6A
-
-		qcom,vooc_strategy2_batt_up_temp1 = <370>;
-		qcom,vooc_strategy2_batt_up_down_temp2 = <380>;
-		qcom,vooc_strategy2_batt_up_temp3 = <390>;
-		qcom,vooc_strategy2_batt_up_down_temp4 = <395>;
-		qcom,vooc_strategy2_batt_up_temp5 = <400>;
-		qcom,vooc_strategy2_batt_up_temp6 = <415>;
-		qcom,vooc_strategy2_high0_current = <0x06>;
-		qcom,vooc_strategy2_high1_current = <0x06>;
-		qcom,vooc_strategy2_high2_current = <0x06>;
-		qcom,vooc_strategy2_high3_current = <0x06>;
-
-		pinctrl-names = "switch1_act_switch2_act", "switch1_sleep_switch2_sleep",
-						"switch1_act_switch3_act", "switch1_sleep_switch3_sleep",
-						"switch1_act_switch2_sleep", "switch1_sleep_switch2_act",
-						"clock_active","clock_sleep",
-						"data_active","data_sleep",
-						"reset_active","reset_sleep";
-		pinctrl-0 = <&charging_switch1_active>;
-		pinctrl-1 = <&charging_switch1_sleep >;
-		pinctrl-2 = <&charging_switch1_active>;
-		pinctrl-3 = <&charging_switch1_sleep >;
-		pinctrl-4 = <&charging_switch1_active>;
-		pinctrl-5 = <&charging_switch1_sleep>;
-		pinctrl-6 = <&charging_clock_active >;
-		pinctrl-7 = <&charging_clock_sleep >;
-		pinctrl-8 = <&charging_data_active >;
-		pinctrl-9 = <&charging_data_sleep >;
-		pinctrl-10 = <&charging_reset_active >;
-		pinctrl-11 = <&charging_reset_sleep >;
-
-		qcom,charging_switch1-gpio = <&tlmm 59 0x00>;
-		//qcom,charging_switch2-gpio = <&tlmm 113 0x00>;
-		//qcom,charging_switch3-gpio = <&tlmm 38 0x00>;
-
-		qcom,charging_reset-gpio = <&tlmm 131 0x00>;
-		qcom,charging_clock-gpio = <&tlmm 92 0x00>;
-		qcom,charging_data-gpio = <&tlmm 93 0x00>;
-	};
-
-};
