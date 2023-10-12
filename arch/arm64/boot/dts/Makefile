@@ -27,13 +27,8 @@
 #dts-dirs += lg
 #dts-dirs += zte
 #else
-ifeq ($(CONFIG_BRAND_SHOW_FLAG),realme)
-    ifeq ($(CONFIG_SHIPPING_API_LEVEL),28)
-        
-    else
-        dts-dirs += 19696
-    endif
-endif
+
+dts-dirs += 19781
 
 subdir-y	:= $(dts-dirs)
 

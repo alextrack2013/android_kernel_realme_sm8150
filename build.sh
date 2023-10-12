@@ -4,12 +4,12 @@
 # Copyright (C) 2020-2021 Adithya R.
 
 SECONDS=0 # builtin bash timer
-ZIPNAME="realme-SM8150-AndroidR-kernel-$(date '+%Y%m%d-%H%M').zip"
-TC_DIR="$HOME/pa/prebuilts/clang/host/linux-x86/clang-r383902"
-GCC_64_DIR="$HOME/tc/aarch64-linux-android-4.9"
-GCC_32_DIR="$HOME/tc/arm-linux-androideabi-4.9"
-AK3_DIR="$HOME/android/AnyKernel3"
-DEFCONFIG="vendor/realme_sm8150-perf_defconfig"
+ZIPNAME="hyper-r-kernel-$(date '+%Y%m%d-%H%M').zip"
+TC_DIR="$HOME/proton-clang"
+GCC_64_DIR="$HOME/proton-clang/aarch64-linux-gnu"
+GCC_32_DIR="$HOME/proton-clang/aarch64-linux-gnu"
+AK3_DIR="$HOME/AnyKernel3"
+DEFCONFIG="samurai_defconfig"
 
 export PATH="$TC_DIR/bin:$PATH"
 
@@ -28,17 +28,17 @@ mkdir -p out
 make O=out ARCH=arm64 $DEFCONFIG
 
 echo -e "\nStarting compilation...\n"
-make -j$(nproc --all) O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=$GCC_64_DIR/bin/aarch64-linux-android- CROSS_COMPILE_ARM32=$GCC_32_DIR/bin/arm-linux-androideabi- Image.gz dtbo.img
+make -j$(nproc --all) O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- Image.gz dtbo.img
 
 kernel="out/arch/arm64/boot/Image.gz"
-dtb="out/arch/arm64/boot/dts/19696/sm8150-v2.dtb"
+dtb="out/arch/arm64/boot/dts/19781/sm8150-v2.dtb"
 dtbo="out/arch/arm64/boot/dtbo.img"
 
 if [ -f "$kernel" ] && [ -f "$dtb" ] && [ -f "$dtbo" ]; then
 	echo -e "\nKernel compiled succesfully! Zipping up...\n"
 	if [ -d "$AK3_DIR" ]; then
 		cp -r $AK3_DIR AnyKernel3
-	elif ! git clone -q https://github.com/ghostrider-reborn/AnyKernel3 -b x3; then
+	elif ! git clone -q https://github.com/alextrack2013/AnyKernel3; then
 		echo -e "\nAnyKernel3 repo not found locally and couldn't clone from GitHub! Aborting..."
 		exit 1
 	fi

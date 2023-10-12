@@ -90,6 +90,11 @@ static bool is_ds2_on;
 static bool swap_ch;
 static bool hifi_filter_enabled;
 static int aanc_level;
+#ifdef OPLUS_ARCH_EXTENDS
+/* Yongzhi.Zhang@MULTIMEDIA.AUDIODRIVER.PLATFORM, 2019/08/01,
+ * add for RX-to-TX AFE Loopback for AEC path */
+static int msm_ec_ref_port_id;
+#endif /* OPLUS_ARCH_EXTENDS */
 #define WEIGHT_0_DB 0x4000
 /* all the FEs which can support channel mixer */
 static struct msm_pcm_channel_mixer channel_mixer[MSM_FRONTEND_DAI_MM_SIZE];
