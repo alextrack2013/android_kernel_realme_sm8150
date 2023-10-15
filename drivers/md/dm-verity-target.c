@@ -62,6 +62,14 @@ struct dm_verity_prefetch_work {
 struct buffer_aux {
 	int hash_verified;
 };
+/*
+ * While system shutdown, skip verity work for I/O error.
+ */
+static inline bool verity_is_system_shutting_down(void)
+{
+	return system_state == SYSTEM_HALT || system_state == SYSTEM_POWER_OFF
+		|| system_state == SYSTEM_RESTART;
+}
 
 /*
  * Initialize struct buffer_aux for a freshly created buffer.
@@ -579,15 +587,6 @@ static int verity_verify_io(struct dm_verity_io *io)
 }
 
 /*
- * Skip verity work in response to I/O error when system is shutting down.
- */
-static inline bool verity_is_system_shutting_down(void)
-{
-	return system_state == SYSTEM_HALT || system_state == SYSTEM_POWER_OFF
-		|| system_state == SYSTEM_RESTART;
-}
-
-/*
  * End one "io" structure with a given error.
  */
 static void verity_finish_io(struct dm_verity_io *io, blk_status_t status)
@@ -728,6 +727,7 @@ int verity_map(struct dm_target *ti, struct bio *bio)
 
 	return DM_MAPIO_SUBMITTED;
 }
+EXPORT_SYMBOL_GPL(verity_map);
 
 /*
  * Status: V (valid) or C (corruption found)
@@ -795,6 +795,7 @@ void verity_status(struct dm_target *ti, status_type_t type,
 		break;
 	}
 }
+EXPORT_SYMBOL_GPL(verity_status);
 
 int verity_prepare_ioctl(struct dm_target *ti,
 		struct block_device **bdev, fmode_t *mode)
@@ -808,6 +809,7 @@ int verity_prepare_ioctl(struct dm_target *ti,
 		return 1;
 	return 0;
 }
+EXPORT_SYMBOL_GPL(verity_prepare_ioctl);
 
 int verity_iterate_devices(struct dm_target *ti,
 				  iterate_devices_callout_fn fn, void *data)
@@ -816,6 +818,7 @@ int verity_iterate_devices(struct dm_target *ti,
 
 	return fn(ti, v->data_dev, v->data_start, ti->len, data);
 }
+EXPORT_SYMBOL_GPL(verity_iterate_devices);
 
 void verity_io_hints(struct dm_target *ti, struct queue_limits *limits)
 {
@@ -829,6 +832,7 @@ void verity_io_hints(struct dm_target *ti, struct queue_limits *limits)
 
 	blk_limits_io_min(limits, limits->logical_block_size);
 }
+EXPORT_SYMBOL_GPL(verity_io_hints);
 
 void verity_dtr(struct dm_target *ti)
 {
@@ -860,6 +864,7 @@ void verity_dtr(struct dm_target *ti)
 
 	kfree(v);
 }
+EXPORT_SYMBOL_GPL(verity_dtr);
 
 static int verity_alloc_most_once(struct dm_verity *v)
 {
@@ -1237,6 +1242,7 @@ bad:
 
 	return r;
 }
+EXPORT_SYMBOL_GPL(verity_ctr);
 
 static struct target_type verity_target = {
 	.name		= "verity",
