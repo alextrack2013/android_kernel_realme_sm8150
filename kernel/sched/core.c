@@ -633,6 +633,7 @@ static inline bool got_nohz_idle_kick(void)
 	 * cancel it and clear NOHZ_BALANCE_KICK
 	 */
 	clear_bit(NOHZ_BALANCE_KICK, nohz_flags(cpu));
+
 	return false;
 }
 
@@ -6063,7 +6064,9 @@ int sched_unisolate_cpu_unlocked(int cpu)
 		stop_cpus(cpumask_of(cpu), do_unisolation_work_cpu_stop, 0);
 
 		/* Kick CPU to immediately do load balancing */
+#ifdef CONFIG_NO_HZ_COMMON
 		if (!test_and_set_bit(NOHZ_BALANCE_KICK, nohz_flags(cpu)))
+#endif
 			smp_send_reschedule(cpu);
 	}
 
