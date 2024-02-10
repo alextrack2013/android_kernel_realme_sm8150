@@ -1430,7 +1430,7 @@ int msm_pcm_routing_reg_phy_compr_stream(int fe_id, int perf_mode,
 				adm_open(msm_bedais[i].port_id,
 					 path_type, sample_rate, channels,
 					 topology, perf_mode, bit_width,
-					 app_type, acdb_dev_id);
+					 app_type, acdb_dev_id, session_type);
 			if ((copp_idx < 0) ||
 				(copp_idx >= MAX_COPPS_PER_PORT)) {
 				pr_err("%s:adm open failed coppid:%d\n",
@@ -1659,7 +1659,7 @@ int msm_pcm_routing_reg_phy_stream(int fedai_id, int perf_mode,
 			copp_idx = adm_open(msm_bedais[i].port_id, path_type,
 						sample_rate, channels, topology,
 						perf_mode, bits_per_sample,
-						app_type, acdb_dev_id);
+						app_type, acdb_dev_id, session_type);
 
 			if ((copp_idx < 0) ||
 				(copp_idx >= MAX_COPPS_PER_PORT)) {
@@ -1931,7 +1931,7 @@ static void msm_pcm_routing_process_audio(u16 reg, u16 val, int set)
 			copp_idx = adm_open(msm_bedais[reg].port_id, path_type,
 						sample_rate, channels, topology,
 						fdai->perf_mode, bits_per_sample,
-						app_type, acdb_dev_id);
+						app_type, acdb_dev_id, session_type);
 
 			if ((copp_idx < 0) ||
 			    (copp_idx >= MAX_COPPS_PER_PORT)) {
@@ -23934,7 +23934,7 @@ static int msm_pcm_routing_prepare(struct snd_pcm_substream *substream)
 			copp_idx = adm_open(bedai->port_id, path_type,
 						sample_rate, channels, topology,
 						fdai->perf_mode, bits_per_sample,
-						app_type, acdb_dev_id);
+						app_type, acdb_dev_id, session_type);
 
 			if ((copp_idx < 0) ||
 				(copp_idx >= MAX_COPPS_PER_PORT)) {

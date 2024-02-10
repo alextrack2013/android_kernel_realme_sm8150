@@ -84,6 +84,7 @@ static int msm_drm_notifier_call_chain(unsigned long val, void *v)
 					    v);
 }
 #else /*OPLUS_BUG_STABILITY*/
+static bool notifier_enabled __read_mostly = true;
 int msm_drm_notifier_call_chain(unsigned long val, void *v)
 {
 	if (unlikely(!notifier_enabled))

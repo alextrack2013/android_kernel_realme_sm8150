@@ -3643,10 +3643,6 @@ static int fastrpc_set_process_info(struct fastrpc_file *fl)
 	if (debugfs_root) {
 		buf_size = strlen(cur_comm) + strlen("_")
 			+ strlen(strpid) + 1;
-<<<<<<< HEAD
-
-=======
->>>>>>> c1c2b00d0c285d84a3adf75f34e58d6902c8a48e
 		spin_lock(&fl->hlock);
 		if (fl->debug_buf_alloced_attempted) {
 			spin_unlock(&fl->hlock);

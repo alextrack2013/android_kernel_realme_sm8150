@@ -4141,7 +4141,6 @@ out:
 		add_lrbp->cmd = NULL;
 		clear_bit_unlock(add_tag, &hba->lrb_in_use);
 		ufshcd_release_all(hba);
-		ufshcd_vops_pm_qos_req_end(hba, pre_cmd->request, true);
 		ufsf_hpb_end_pre_req(&hba->ufsf, pre_cmd->request);
 	}
 #endif
@@ -10943,14 +10942,9 @@ out:
 
 static int ufshcd_resume(struct ufs_hba *hba, enum ufs_pm_op pm_op)
 {
-	struct pm_qos_request req = (typeof(req)){
-		.type = PM_QOS_REQ_ALL_CORES,
-	};
 	int ret;
 
-	pm_qos_add_request(&req, PM_QOS_CPU_DMA_LATENCY, 100);
 	ret = __ufshcd_resume(hba, pm_op);
-	pm_qos_remove_request(&req);
 
 	return ret;
 }

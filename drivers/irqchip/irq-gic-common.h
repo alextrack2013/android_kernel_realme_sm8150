@@ -40,4 +40,10 @@ void gic_enable_quirks(u32 iidr, const struct gic_quirk *quirks,
 
 void gic_set_kvm_info(const struct gic_kvm_info *info);
 
+#ifdef CONFIG_QCOM_SHOW_RESUME_IRQ
+extern int msm_show_resume_irq_mask;
+#else
+#define msm_show_resume_irq_mask 0
+#endif
+
 #endif /* _IRQ_GIC_COMMON_H */
